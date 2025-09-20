@@ -10,8 +10,7 @@ app.use(express.json());
 
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
-// Authentication middleware function
-function auth(req,res,next){
+app.use("/customer/auth/*", function auth(req,res,next){
     //Check if access token exists in the session
     if(req.session.authorization) {
         token = req.session.authorization['accessToken']; // Access Token
@@ -29,7 +28,7 @@ function auth(req,res,next){
      } else {
          return res.status(403).json({message: "User not logged in"})
      }
-}
+});
  
 const PORT =5000;
 
